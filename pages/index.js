@@ -1,17 +1,21 @@
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import useSWR from "swr";
+import Link from "next/link";
 
 const base_url = "https://api.spacexdata.com/v4";
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
-export default function Home() {
-  const { data, error } = useSWR(`${base_url}/launches`, fetcher);
+export async function getStaticProps() {
+  const res = await fetch(`${base_url}/launches`);
+  const launches = await res.json();
+  return {
+    props: {
+      launches,
+    },
+  };
+}
 
-  if (!data && !error) {
-    return "loading..";
-  }
-
+export default function Home({ launches }) {
   return (
     <div>
       <Head>
@@ -22,11 +26,16 @@ export default function Home() {
       <main className={styles.main}>
         <h1 className={styles.title}>Launches</h1>
         <div className={styles.container}>
-          {data.map((item) => (
-            <div key={item.id} className={styles.flightCard}>
-              <h2>{item.name}</h2>
-              <img className={styles.patchImage} src={item.links.patch.small} />
-            </div>
+          {launches.map((item) => (
+            <Link href={`/flights/${item.id}`}>
+              <div key={item.id} className={styles.flightCard}>
+                <h2>{item.name}</h2>
+                <img
+                  className={styles.patchImage}
+                  src={item.links.patch.small}
+                />
+              </div>
+            </Link>
           ))}
         </div>
       </main>
