@@ -25,6 +25,7 @@ export default function Flight(props) {
       <div className={styles.detailWrapper}>
         <h2>{launch.name}</h2>
         <img className={styles.patchImage} src={launch.links.patch.small} />
+        <p className={styles.detailText}>{launch.details}</p>
       </div>
     </>
   );
