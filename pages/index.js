@@ -6,17 +6,29 @@ const base_url = "https://api.spacexdata.com/v4";
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 export default function Home() {
-  const { data, error } = useSWR(`${base_url}/launches/latest`, fetcher);
+  const { data, error } = useSWR(`${base_url}/launches`, fetcher);
+
+  if (!data && !error) {
+    return "loading..";
+  }
 
   return (
     <div>
       <Head>
-        <title>Create Next App</title>
+        <title>Let's get to the moon</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
-        <pre>{JSON.stringify(data, null, "\t")}</pre>
+      <main className={styles.main}>
+        <h1 className={styles.title}>Launches</h1>
+        <div className={styles.container}>
+          {data.map((item) => (
+            <div key={item.id} className={styles.flightCard}>
+              <h2>{item.name}</h2>
+              <img className={styles.patchImage} src={item.links.patch.small} />
+            </div>
+          ))}
+        </div>
       </main>
 
       <footer className={styles.footer}>
