@@ -2,8 +2,7 @@ import Head from "next/head";
 import styles from "../styles/Home.module.css";
 import useSWR from "swr";
 import Link from "next/link";
-
-const base_url = "https://api.spacexdata.com/v4";
+import { base_url } from "../utils/fetch";
 
 export async function getStaticProps() {
   const res = await fetch(`${base_url}/launches`);
@@ -27,8 +26,8 @@ export default function Home({ launches }) {
         <h1 className={styles.title}>Launches</h1>
         <div className={styles.container}>
           {launches.map((item) => (
-            <Link href={`/flights/${item.id}`}>
-              <div key={item.id} className={styles.flightCard}>
+            <Link key={item.id} href={`/flights/${item.id}`}>
+              <div className={styles.flightCard}>
                 <h2>{item.name}</h2>
                 <img
                   className={styles.patchImage}

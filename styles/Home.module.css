@@ -11,6 +11,7 @@
 }
 
 .flightCard {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,6 +30,14 @@
 .flightCard:focus,
 .flightCard:active {
   background: radial-gradient(#0072ff, #4a0fff9c);
+}
+
+.detailWrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer {
